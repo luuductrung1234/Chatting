@@ -1,17 +1,22 @@
-const HUB_URL = 'https://localhost:44376/chattinghub';
+const HUB_URL =
+  'http://localhost:19081/Chatting/Chatting.API/chattinghub';
 
 let connection = null;
 
 setupConnection = () => {
   connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Trace)
-    .withUrl(HUB_URL, {
+    //.configureLogging(signalR.LogLevel.Trace)
+    .withUrl(HUB_URL + `?userCode=${getSenderCode()}`, {
       skipNegotiation: true,
       transport: signalR.HttpTransportType.WebSockets
     })
     .build();
 
   connection.on('ReceiveSomethingsHappen', message => {
+    console.log(message);
+  });
+
+  connection.on('ReceiveMessage', message => {
     console.log(message);
   });
 
@@ -30,8 +35,6 @@ setupConnection = () => {
   });
 };
 
-setupConnection();
-
 async function restartConnection() {
   try {
     await connection.start();
@@ -42,8 +45,38 @@ async function restartConnection() {
   }
 }
 
+document.getElementById('startConnect').addEventListener('click', e => {
+  e.preventDefault();
+
+  setupConnection();
+});
+
 document.getElementById('dosomethings').addEventListener('click', e => {
   e.preventDefault();
 
   connection.invoke('DoSomethings', 1);
 });
+
+document.getElementById('send').addEventListener('click', e => {
+  e.preventDefault();
+
+  var receiverCode = getReceiverCode();
+  var message = getMessage();
+
+  connection.invoke('SendMessage', message, receiverCode);
+});
+
+function getSenderCode() {
+  // Selecting the input element and get its value
+  return document.getElementById('senderCode').value;
+}
+
+function getReceiverCode() {
+  // Selecting the input element and get its value
+  return document.getElementById('receiverCode').value;
+}
+
+function getMessage() {
+  // Selecting the input element and get its value
+  return document.getElementById('message').value;
+}

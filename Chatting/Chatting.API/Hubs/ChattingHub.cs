@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Chatting.API.Utils;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Chatting.API.Hubs
@@ -33,18 +34,53 @@ namespace Chatting.API.Hubs
          await Clients.Caller.SendAsync("Finished");
       }
 
-      public override Task OnConnectedAsync()
+      public async Task SendMessage(string message, string receiverCode)
       {
-         var connectionId = Context.ConnectionId;
-
-         return base.OnConnectedAsync();
+         await Clients.Group(receiverCode).SendAsync("ReceiveMessage", message);
       }
 
-      public override Task OnDisconnectedAsync(Exception exception)
+      public async override Task OnConnectedAsync()
       {
-         var connectionId = Context.ConnectionId;
-
-         return base.OnDisconnectedAsync(exception);
+         await AddConnectionToGroup(HubConstants.UserIdentityKey);
       }
+
+      public async override Task OnDisconnectedAsync(Exception exception)
+      {
+         await RemoveConnectionToGroup(HubConstants.UserIdentityKey);
+      }
+
+      #region Helper Methods
+
+      public async Task<string> AddConnectionToGroup(string key)
+      {
+         var query = this.Context.GetHttpContext().Request.Query;
+
+         if (query.ContainsKey(key))
+         {
+            var groupName = query[key];
+            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, groupName);
+
+            return groupName;
+         }
+
+         return string.Empty;
+      }
+
+      public async Task<string> RemoveConnectionToGroup(string key)
+      {
+         var query = this.Context.GetHttpContext().Request.Query;
+
+         if (query.ContainsKey(key))
+         {
+            var groupName = query[key];
+            await this.Groups.RemoveFromGroupAsync(this.Context.ConnectionId, groupName);
+
+            return groupName;
+         }
+
+         return string.Empty;
+      }
+
+      #endregion
    }
 }
