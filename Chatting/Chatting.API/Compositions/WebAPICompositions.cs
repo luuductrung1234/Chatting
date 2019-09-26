@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
 
 namespace Chatting.API.Compositions
 {
@@ -31,7 +33,20 @@ namespace Chatting.API.Compositions
       public static IServiceCollection AddSignalRConfigration(this IServiceCollection services)
       {
          services.AddHttpContextAccessor()
-            .AddSignalR(c => c.EnableDetailedErrors = true);
+            .AddSignalR(c => c.EnableDetailedErrors = true)
+            .AddJsonProtocol(options =>
+            {
+               // customize how Json format data
+               options.PayloadSerializerSettings.ContractResolver = new DefaultContractResolver();
+            })
+            .AddMessagePackProtocol(options =>
+            {
+               // customize how MessagePack format data
+               options.FormatterResolvers = new List<MessagePack.IFormatterResolver>()
+               {
+                  MessagePack.Resolvers.StandardResolver.Instance
+               };
+            });
 
          return services;
       }
