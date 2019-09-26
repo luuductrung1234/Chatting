@@ -39,7 +39,7 @@ setupConnection = () => {
 
 async function restartConnection() {
   try {
-    await connection.start();
+    setupConnection();
     console.log('>>>> Re-Connected!');
   } catch (err) {
     console.error(err);
