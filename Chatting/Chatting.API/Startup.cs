@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -12,10 +13,10 @@ using Microsoft.Extensions.Options;
 
 // Chatting API
 using Chatting.API.Compositions;
+using Chatting.API.Hubs;
 
 // Chatting Infrastructure
 using Chatting.Infrastructure.Compositions;
-using Chatting.API.Hubs;
 
 namespace Chatting.API
 {
@@ -60,7 +61,24 @@ namespace Chatting.API
 
          app.UseHttpsRedirection();
 
-         app.UseSignalR(routes => routes.MapHub<ChattingHub>("/chattinghub"));
+         app.UseSignalR((configure) =>
+         {
+            // signalR server side desired specific transports
+            var desiredTransports =
+               HttpTransportType.WebSockets |
+               HttpTransportType.ServerSentEvents;
+
+            configure.MapHub<ChattingHub>("/chattinghub", (options) =>
+            {
+               options.Transports = desiredTransports;
+
+               // the maximum number of bytes from the client that the server buffers
+               options.TransportMaxBufferSize = 32;
+
+               // the maximum number of bytes the server can send
+               options.ApplicationMaxBufferSize = 32;
+            });
+         });
 
          app.UseMvc();
       }
