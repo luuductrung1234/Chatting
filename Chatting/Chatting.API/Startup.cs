@@ -23,13 +23,14 @@ namespace Chatting.API
    {
       private static readonly string _corsPolicy = "MyCustomCorsPolicy";
 
-      private readonly IHostingEnvironment _env;
 
-      public Startup(IConfiguration configuration, IHostingEnvironment env)
+      public Startup(IConfiguration configuration, IHostingEnvironment environment)
       {
          Configuration = configuration;
-         _env = env;
+         Environment = environment;
       }
+
+      public IHostingEnvironment Environment { get; }
 
       public IConfiguration Configuration { get; }
 
@@ -38,7 +39,7 @@ namespace Chatting.API
       {
          services
             .AddCustomConfiguration(Configuration)
-            .AddInfrastructure(_env)
+            .AddInfrastructure(Environment)
             .AddWebAPI(_corsPolicy);
       }
 

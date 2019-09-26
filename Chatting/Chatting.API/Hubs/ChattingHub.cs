@@ -1,19 +1,29 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Chatting.API.Utils;
 using Microsoft.AspNetCore.SignalR;
+
+// Chatting Domain
+using Chatting.Domain;
+using Chatting.Domain.Interfaces;
+
+// Chatting API Hubs
+using Chatting.API.Hubs.Interfaces;
+using Chatting.API.Utils;
+using Chatting.API.Hubs.Requests;
 
 namespace Chatting.API.Hubs
 {
-   public class ChattingHub : Hub
+   public class ChattingHub : Hub<IChattingClient>, IChattingServer
    {
-      private bool _isUserOnScreen = false;
+      private readonly IChatMessageRepository _messageRepository;
 
-      public ChattingHub()
+      public ChattingHub(IChatMessageRepository messageRepository)
       {
-
+         _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
       }
+
+      #region Business Methods
 
       public async Task DoSomethings(int seed)
       {
@@ -25,19 +35,28 @@ namespace Chatting.API.Hubs
          {
             Thread.Sleep(1000);
 
-            await Clients.Caller.SendAsync("ReceiveSomethingsHappen", $"Current sentinel is {sentinel}");
+            await Clients.Caller.ReceiveSomethingsHappen($"Current sentinel is {sentinel}");
 
             sentinel = random.Next(1, 100);
          }
          while (sentinel != 50);
 
-         await Clients.Caller.SendAsync("Finished");
+         await Clients.Caller.Finished();
       }
 
-      public async Task SendMessage(string message, string receiverCode)
+      public async Task SendMessage(TextMessageRequest request)
       {
-         await Clients.Group(receiverCode).SendAsync("ReceiveMessage", message);
+         var newMessage = new ChatMessage("",
+            request.SenderCode,
+            request.ReceiverCode,
+            request.Message);
+
+         await Clients.Group(request.ReceiverCode).ReceiveMessage(newMessage);
       }
+
+      #endregion
+
+      #region Connection Event Methods
 
       public async override Task OnConnectedAsync()
       {
@@ -48,6 +67,8 @@ namespace Chatting.API.Hubs
       {
          await RemoveConnectionToGroup(HubConstants.UserIdentityKey);
       }
+
+      #endregion
 
       #region Helper Methods
 

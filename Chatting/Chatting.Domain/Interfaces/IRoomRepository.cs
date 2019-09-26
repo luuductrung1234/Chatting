@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Chatting.Domain.Interfaces
 {
    public interface IRoomRepository
    {
-      void CreateRoom(Room room);
+      Task AddRoomAsync(Room room);
 
-      IEnumerable<Room> GetRooms();
+      Task<IEnumerable<Room>> GetRoomsAsync();
 
-      IEnumerable<Room> GetRoomsByUser(string userCode);
+      Task<IEnumerable<Room>> GetRoomsByUserAsync(string userCode);
 
-      Room GetRoom(Guid id);
+      Task<Room> GetRoomAsync(Guid id);
 
-      Room GetRoom(string roomCode);
+      Task<Room> GetRoomAsync(string roomCode);
    }
 }

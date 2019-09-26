@@ -1,34 +1,48 @@
-﻿using Chatting.Domain;
-using Chatting.Domain.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+
+// Common
+using SalesHub.Common.GenericMongoDbRepository;
+
+// Chatting Domain
+using Chatting.Domain;
+using Chatting.Domain.Interfaces;
+
+// Chatting Infrastructure
+using Chatting.Infrastructure.Common;
 
 namespace Chatting.Infrastructure.Repositories
 {
-   public class RoomRepository : IRoomRepository
+   public class RoomRepository : BaseRepository<Room>, IRoomRepository
    {
-      public void CreateRoom(Room room)
+      public RoomRepository(IGenericDbContext dbContext)
+         : base(dbContext, partitionKey: "roomCode")
+      {
+
+      }
+
+      public Task AddRoomAsync(Room room)
       {
          throw new NotImplementedException();
       }
 
-      public Room GetRoom(Guid id)
+      public Task<Room> GetRoomAsync(Guid id)
       {
          throw new NotImplementedException();
       }
 
-      public Room GetRoom(string roomCode)
+      public Task<Room> GetRoomAsync(string roomCode)
       {
          throw new NotImplementedException();
       }
 
-      public IEnumerable<Room> GetRooms()
+      public Task<IEnumerable<Room>> GetRoomsAsync()
       {
          throw new NotImplementedException();
       }
 
-      public IEnumerable<Room> GetRoomsByUser(string userCode)
+      public Task<IEnumerable<Room>> GetRoomsByUserAsync(string userCode)
       {
          throw new NotImplementedException();
       }

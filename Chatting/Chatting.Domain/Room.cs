@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// SalesHub Common
+using SalesHub.Common.DDDCore;
+
 namespace Chatting.Domain
 {
-   public class Room
+   public class Room : Entity, IAggregateRoot
    {
       public string RoomCode { get; private set; }
 
@@ -20,6 +23,5 @@ namespace Chatting.Domain
          UserCodes = userCodes;
          CreatedDate = createdDate;
       }
-
    }
 }

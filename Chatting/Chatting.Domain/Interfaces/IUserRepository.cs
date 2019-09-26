@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Chatting.Domain.Interfaces
 {
    public interface IUserRepository
    {
-      void CreateUser(User user);
+      Task AddUserAsync(User user);
 
-      IEnumerable<User> GetUsers();
+      Task<IEnumerable<User>> GetUsersAsync();
 
-      User GetUser(Guid id);
+      Task<User> GetUserAsync(Guid id);
 
-      User GetUser(string userCode);
+      Task<User> GetUserAsync(string userCode);
    }
 }

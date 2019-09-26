@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
+// SalesHub Common
+using SalesHub.Common.DDDCore;
 
 namespace Chatting.Domain
 {
-   public class ChatMessage
+   public class ChatMessage : Entity, IAggregateRoot
    {
       public string ChatMessageCode { get; private set; }
 
@@ -18,19 +19,26 @@ namespace Chatting.Domain
 
       public string Message { get; private set; }
 
-      public ChatMessage(string chatMessageCode,
+      public ChatMessage(
          string roomCode,
          string senderCode,
          string receiverCode,
-         DateTime createdDate,
          string message)
       {
-         ChatMessageCode = chatMessageCode;
+         ChatMessageCode = GenerateCode();
          RoomCode = roomCode;
          SenderCode = senderCode;
          ReceiverCode = receiverCode;
-         CreatedDate = createdDate;
+
          Message = message;
+
+         CreatedDate = DateTime.Now;
+      }
+
+      private string GenerateCode()
+      {
+         var value = DateTime.Now;
+         return $"ON-{value.ToString("yyyyMMddHHmmssffff")}";
       }
    }
 }

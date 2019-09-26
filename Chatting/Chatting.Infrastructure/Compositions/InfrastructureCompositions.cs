@@ -22,17 +22,27 @@ namespace Chatting.Infrastructure.Compositions
          MappingConfigurations.Map();
 
          services
-            .AddSingleton<GenericDbConfigurationBuilder>()
-            .AddSingleton<ReadOnlyDbConfigurationBuilder>()
-            .AddSingleton<MasterDataDbConfigurationBuilder>()
-            .AddDbContext(env)
+            .AddMasterDbContext()
+            .AddServiceDbContext(env)
             .AddRepositories();
 
          return services;
       }
 
-      public static IServiceCollection AddDbContext(this IServiceCollection services, IHostingEnvironment env)
+      public static IServiceCollection AddMasterDbContext(this IServiceCollection services)
       {
+
+         services.AddSingleton<MasterDataDbConfigurationBuilder>();
+
+         return services;
+      }
+
+      public static IServiceCollection AddServiceDbContext(this IServiceCollection services, IHostingEnvironment env)
+      {
+         services
+            .AddSingleton<GenericDbConfigurationBuilder>()
+            .AddSingleton<ReadOnlyDbConfigurationBuilder>();
+
          services.AddSingleton<IGenericDbContext>(sp =>
          {
             var dbConfiguration = sp.GetRequiredService<GenericDbConfigurationBuilder>();
@@ -55,8 +65,9 @@ namespace Chatting.Infrastructure.Compositions
             var mongoClient = new MongoClient(settings);
             var mongoDatabase = mongoClient.GetDatabase(dbConfiguration.DatabaseName);
             return new GenericDbContext(mongoDatabase);
-         })
-         .AddSingleton<IReadOnlyDbContext>(sp =>
+         });
+
+         services.AddSingleton<IReadOnlyDbContext>(sp =>
          {
             var dbConfiguration = sp.GetRequiredService<ReadOnlyDbConfigurationBuilder>();
 
@@ -79,7 +90,6 @@ namespace Chatting.Infrastructure.Compositions
             var mongoDatabase = mongoClient.GetDatabase(dbConfiguration.DatabaseName);
             return new ReadOnlyDbContext(mongoDatabase);
          });
-
 
          return services;
       }

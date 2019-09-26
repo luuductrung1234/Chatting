@@ -6,18 +6,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.Extensions.Configuration;
+using Microsoft.ServiceFabric.Services.Runtime;
 
-// SalesHub Common
-using SalesHub.Common.BaseService;
-using SalesHub.Common.BaseServiceProvider.Helpers;
+using SalesHub.Common.Core.DependencyInjection;
 
 namespace Chatting.API
 {
    /// <summary>
    /// The FabricRuntime creates an instance of this class for each service type instance. 
    /// </summary>
-   internal sealed class Manager : BaseStatelessService
+   internal sealed class Manager : StatelessService
    {
       public Manager(StatelessServiceContext context)
           : base(context)
@@ -39,29 +37,16 @@ namespace Chatting.API
                         return new WebHostBuilder()
                                     .UseKestrel()
                                     .ConfigureServices(
-                                        (services) => DoConfigureServices(services, serviceContext))
+                                        (services) => services
+                                             .AddSingleton<StatelessServiceContext>(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
-                                    .ConfigureAppConfiguration((context, builder) => AddAppConfiguration(builder, this.BaseConfiguration))
+                                    .ConfigureAppConfiguration((builder) => builder.RegisterSFConfig())
                                     .UseStartup<Startup>()
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseUrls(url)
                                     .Build();
                     }))
          };
-      }
-
-      private void DoConfigureServices(IServiceCollection services, StatelessServiceContext serviceContext)
-      {
-         //Add BaseServiceCollection into web app service collection
-         services.AddMany(BaseServiceCollection);
-
-         services.AddSingleton<StatelessServiceContext>(serviceContext);
-      }
-
-      private void AddAppConfiguration(IConfigurationBuilder configurationBuilder, IConfiguration baseConfiguration)
-      {
-         // Add base configuration settings.
-         configurationBuilder.AddConfiguration(baseConfiguration);
       }
    }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
+// SalesHub Common
 using SalesHub.Common.DDDCore;
 
 namespace Chatting.Domain

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chatting.API.Compositions
@@ -13,11 +12,12 @@ namespace Chatting.API.Compositions
             {
                options.AddPolicy(corsPolicy, builder =>
                {
-                  builder.AllowAnyHeader()
+                  builder
+                     .AllowAnyHeader()
                      .AllowAnyMethod()
                      .AllowCredentials()
-                     .WithOrigins("https://localhost:44376",
-                        "http://localhost:59553");
+                     .AllowAnyOrigin()
+                     .WithOrigins("http://localhost:8080");
                });
             })
             .AddMvc()

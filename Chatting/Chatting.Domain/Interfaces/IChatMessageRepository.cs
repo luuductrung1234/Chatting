@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Chatting.Domain.Interfaces
 {
    public interface IChatMessageRepository
    {
-      void CreateChatMessage(ChatMessage chatMessage);
+      Task AddChatMessageAsync(ChatMessage chatMessage);
 
-      IEnumerable<ChatMessage> GetChatMessages();
+      Task<IEnumerable<ChatMessage>> GetChatMessagesAsync();
 
-      IEnumerable<ChatMessage> GetChatMessagesByUser(string userCode);
+      Task<IEnumerable<ChatMessage>> GetChatMessagesByUserAsync(string userCode);
 
-      IEnumerable<ChatMessage> GetChatMessagesByRoom(string roomCode);
+      Task<IEnumerable<ChatMessage>> GetChatMessagesByRoomAsync(string roomCode);
 
-      ChatMessage GetChatMessage(Guid id);
+      Task<ChatMessage> GetChatMessageAsync(Guid id);
 
-      ChatMessage GetChatMessage(string messageCode);
+      Task<ChatMessage> GetChatMessageAsync(string messageCode);
    }
 }
