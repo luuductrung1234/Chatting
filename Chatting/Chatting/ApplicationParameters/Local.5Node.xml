@@ -13,5 +13,7 @@
     <Parameter Name="ServiceDb:DatabaseName" Value="Chatting_Database" />
     <!-- Master Database -->
     <Parameter Name="MasterDataDb:ConnectionString" Value="Server=localhost,1433;Database=saleshub-dev-masterdata;User Id=sa;Password=Trung1997;" />
+    <!-- Azure SignalR Service -->
+    <Parameter Name="Azure:SignalR:ConnectionString" Value="" />
   </Parameters>
 </Application>

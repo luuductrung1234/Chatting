@@ -13,6 +13,8 @@
     <Parameter Name="ServiceDb:DatabaseName" DefaultValue="" />
     <!-- Master Database -->
     <Parameter Name="MasterDataDb:ConnectionString" DefaultValue="" />
+    <!-- Azure SignalR Service -->
+    <Parameter Name="Azure:SignalR:ConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -22,10 +24,10 @@
     <ConfigOverrides>
       <ConfigOverride Name="Config">
         <Settings>
-          <Section Name="Logging">
-            <Parameter Name="LogLevel:Default" Value="[Logging:LogLevel:Default]" />
-            <Parameter Name="LogLevel:System" Value="[Logging:LogLevel:System]" />
-            <Parameter Name="LogLevel:Microsoft" Value="[Logging:LogLevel:Microsoft]" />
+          <Section Name="Logging:LogLevel">
+            <Parameter Name="Default" Value="[Logging:LogLevel:Default]" />
+            <Parameter Name="System" Value="[Logging:LogLevel:System]" />
+            <Parameter Name="Microsoft" Value="[Logging:LogLevel:Microsoft]" />
           </Section>
           <Section Name="ServiceDb">
             <Parameter Name="ConnectionString" Value="[ServiceDb:ConnectionString]" />
@@ -33,6 +35,9 @@
           </Section>
           <Section Name="MasterDataDb">
             <Parameter Name="ConnectionString" Value="[MasterDataDb:ConnectionString]" />
+          </Section>
+          <Section Name="Azure:SignalR">
+            <Parameter Name="ConnectionString" Value="[Azure:SignalR:ConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>

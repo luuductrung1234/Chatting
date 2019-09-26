@@ -13,5 +13,7 @@
     <Parameter Name="ServiceDb:DatabaseName" Value="" />
     <!-- Master Database -->
     <Parameter Name="MasterDataDb:ConnectionString" Value="" />
+    <!-- Azure SignalR Service -->
+    <Parameter Name="Azure:SignalR:ConnectionString" Value="" />
   </Parameters>
 </Application>
