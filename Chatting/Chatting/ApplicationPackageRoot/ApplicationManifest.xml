@@ -6,8 +6,10 @@
     <Parameter Name="Chatting.API_InstanceCount" DefaultValue="-1" />
     <!-- Logging -->
     <Parameter Name="Logging:LogLevel:Default" DefaultValue="" />
-    <Parameter Name="Logging:LogLevel:System" DefaultValue="Information" />
-    <Parameter Name="Logging:LogLevel:Microsoft" DefaultValue="Information" />
+    <Parameter Name="Logging:LogLevel:System" DefaultValue="" />
+    <Parameter Name="Logging:LogLevel:Microsoft" DefaultValue="" />
+    <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.SignalR" DefaultValue="" />
+    <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.Http.Connections" DefaultValue="" />
     <!-- Services Database -->
     <Parameter Name="ServiceDb:ConnectionString" DefaultValue="" />
     <Parameter Name="ServiceDb:DatabaseName" DefaultValue="" />
@@ -28,6 +30,8 @@
             <Parameter Name="Default" Value="[Logging:LogLevel:Default]" />
             <Parameter Name="System" Value="[Logging:LogLevel:System]" />
             <Parameter Name="Microsoft" Value="[Logging:LogLevel:Microsoft]" />
+            <Parameter Name="Microsoft.AspNetCore.SignalR" Value="[Logging:LogLevel:Microsoft.AspNetCore.SignalR]" />
+            <Parameter Name="Microsoft.AspNetCore.Http.Connections" Value="[Logging:LogLevel:Microsoft.AspNetCore.Http.Connections]" />
           </Section>
           <Section Name="ServiceDb">
             <Parameter Name="ConnectionString" Value="[ServiceDb:ConnectionString]" />

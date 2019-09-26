@@ -8,6 +8,8 @@
     <Parameter Name="Logging:LogLevel:Default" Value="Trace" />
     <Parameter Name="Logging:LogLevel:System" Value="Information" />
     <Parameter Name="Logging:LogLevel:Microsoft" Value="Information" />
+    <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.SignalR" Value="Trace" />
+    <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.Http.Connections" Value="Trace" />
     <!-- Services Database -->
     <Parameter Name="ServiceDb:ConnectionString" Value="" />
     <Parameter Name="ServiceDb:DatabaseName" Value="" />

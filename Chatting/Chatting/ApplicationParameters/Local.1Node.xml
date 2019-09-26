@@ -8,6 +8,8 @@
     <Parameter Name="Logging:LogLevel:Default" Value="Debug" />
     <Parameter Name="Logging:LogLevel:System" Value="Information" />
     <Parameter Name="Logging:LogLevel:Microsoft" Value="Information" />
+    <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.SignalR" Value="Debug" />
+    <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.Http.Connections" Value="Debug" />
     <!-- Services Database -->
     <Parameter Name="ServiceDb:ConnectionString" Value="mongodb://localhost:C2y6yDjf5%2FR%2Bob0N8A7Cgv30VRDJIWEHLM%2B4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw%2FJw%3D%3D@localhost:10255/admin?ssl=true" />
     <Parameter Name="ServiceDb:DatabaseName" Value="Chatting_Database" />
