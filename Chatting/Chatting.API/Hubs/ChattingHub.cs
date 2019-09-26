@@ -51,6 +51,8 @@ namespace Chatting.API.Hubs
             request.ReceiverCode,
             request.Message);
 
+         await _messageRepository.AddChatMessageAsync(newMessage);
+
          await Clients.Group(request.ReceiverCode).ReceiveMessage(newMessage);
       }
 
