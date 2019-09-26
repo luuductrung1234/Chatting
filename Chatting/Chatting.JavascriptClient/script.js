@@ -1,16 +1,21 @@
-const HUB_URL =
-  'http://localhost:19081/Chatting/Chatting.API/chattinghub';
+const HUB_URL = 'http://localhost:19081/Chatting/Chatting.API/chattinghub';
 
 let connection = null;
 
 setupConnection = () => {
   connection = new signalR.HubConnectionBuilder()
-    //.configureLogging(signalR.LogLevel.Trace)
+    .configureLogging(signalR.LogLevel.None)
     .withUrl(HUB_URL + `?userCode=${getSenderCode()}`, {
       //skipNegotiation: true,
-      transport: signalR.HttpTransportType.WebSockets
-      //transport: signalR.HttpTransportType.ServerSentEvents
-      //transport: signalR.HttpTransportType.LongPolling
+      transport:
+        signalR.HttpTransportType.WebSockets |
+        signalR.HttpTransportType.ServerSentEvents,
+      //transport: signalR.HttpTransportType.LongPolling,
+      accessTokenFactory: () => {
+        // Get and return the access token.
+        // This function can return a JavaScript Promise if asynchronous
+        // logic is required to retrieve the access token.
+      }
     })
     .build();
 
@@ -69,7 +74,8 @@ document.getElementById('send').addEventListener('click', e => {
   connection.invoke('SendMessage', {
     senderCode: senderCode,
     receiverCode: receiverCode,
-    message: message});
+    message: message
+  });
 });
 
 function getSenderCode() {
