@@ -7,8 +7,10 @@ setupConnection = () => {
   connection = new signalR.HubConnectionBuilder()
     //.configureLogging(signalR.LogLevel.Trace)
     .withUrl(HUB_URL + `?userCode=${getSenderCode()}`, {
-      skipNegotiation: true,
+      //skipNegotiation: true,
       transport: signalR.HttpTransportType.WebSockets
+      //transport: signalR.HttpTransportType.ServerSentEvents
+      //transport: signalR.HttpTransportType.LongPolling
     })
     .build();
 
@@ -16,8 +18,8 @@ setupConnection = () => {
     console.log(message);
   });
 
-  connection.on('ReceiveMessage', message => {
-    console.log(message);
+  connection.on('ReceiveMessage', response => {
+    console.log(`From ${response.senderCode} : ${response.message}`);
   });
 
   connection.on('finished', function() {
@@ -60,10 +62,14 @@ document.getElementById('dosomethings').addEventListener('click', e => {
 document.getElementById('send').addEventListener('click', e => {
   e.preventDefault();
 
+  var senderCode = getSenderCode();
   var receiverCode = getReceiverCode();
   var message = getMessage();
 
-  connection.invoke('SendMessage', message, receiverCode);
+  connection.invoke('SendMessage', {
+    senderCode: senderCode,
+    receiverCode: receiverCode,
+    message: message});
 });
 
 function getSenderCode() {
