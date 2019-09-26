@@ -41,7 +41,7 @@ namespace Chatting.API
          services
             .AddCustomConfiguration(Configuration)
             .AddInfrastructure(Environment)
-            .AddWebAPI(_corsPolicy);
+            .AddWebAPI(Environment, _corsPolicy);
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
