@@ -17,6 +17,10 @@ setupConnection = () => {
         // logic is required to retrieve the access token.
       }
     })
+    // MessagePack is a binary serialization format that is fast and compact. It's useful when performance and bandwidth are a concern because it creates smaller messages compared to JSON.
+    // MessagePack is quite quirk (case-sensitive, DateTime Kind is not preserved,...)
+    // https://docs.microsoft.com/en-us/aspnet/core/signalr/messagepackhubprotocol?view=aspnetcore-2.2
+    // .withHubProtocol(new signalR.protocols.msgpack.MessagePackHubProtocol())
     .build();
 
   connection.on('ReceiveSomethingsHappen', message => {
@@ -35,7 +39,10 @@ setupConnection = () => {
   connection
     .start()
     .then(() => console.log('>>>> Connected!'))
-    .catch(err => console.error(err.toString()));
+    .catch(err => {
+      // handle errors from server
+      console.error(err.toString());
+    });
 
   connection.onclose(async () => {
     await restartConnection();
