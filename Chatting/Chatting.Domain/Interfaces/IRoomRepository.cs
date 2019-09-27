@@ -15,5 +15,7 @@ namespace Chatting.Domain.Interfaces
       Task<Room> GetRoomAsync(Guid id);
 
       Task<Room> GetRoomAsync(string roomCode);
+
+      Task<bool> CheckRoomExistedAsync(string roomCode, IList<string> userCodes);
    }
 }

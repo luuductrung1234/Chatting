@@ -21,9 +21,9 @@ namespace Chatting.Infrastructure.Repositories
       {
 
       }
-      public Task AddUserAsync(User user)
+      public async Task AddUserAsync(User user)
       {
-         throw new NotImplementedException();
+         await this.AddOneAsync(user);
       }
 
       public Task<User> GetUserAsync(Guid id)

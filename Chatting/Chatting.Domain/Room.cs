@@ -16,12 +16,19 @@ namespace Chatting.Domain
 
       public DateTime CreatedDate { get; private set; }
 
-      public Room(string roomCode, string roomName, IEnumerable<string> userCodes, DateTime createdDate)
+      public Room(string roomName, IEnumerable<string> userCodes)
       {
-         RoomCode = roomCode;
+         RoomCode = GenerateCode();
          RoomName = roomName;
          UserCodes = userCodes;
-         CreatedDate = createdDate;
+
+         CreatedDate = DateTime.Now;
+      }
+
+      private string GenerateCode()
+      {
+         var value = DateTime.Now;
+         return $"RM-{value.ToString("yyyyMMddHHmmssffff")}";
       }
    }
 }

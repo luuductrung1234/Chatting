@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 // SalesHub Common
 using SalesHub.Common.DDDCore;
@@ -13,7 +14,7 @@ namespace Chatting.Domain
 
       public string SenderCode { get; private set; }
 
-      public string ReceiverCode { get; private set; }
+      public IEnumerable<string> ReceiverCodes { get; private set; }
 
       public DateTime CreatedDate { get; private set; }
 
@@ -22,13 +23,13 @@ namespace Chatting.Domain
       public ChatMessage(
          string roomCode,
          string senderCode,
-         string receiverCode,
+         IEnumerable<string> receiverCodes,
          string message)
       {
          ChatMessageCode = GenerateCode();
          RoomCode = roomCode;
          SenderCode = senderCode;
-         ReceiverCode = receiverCode;
+         ReceiverCodes = receiverCodes;
 
          Message = message;
 
@@ -38,7 +39,7 @@ namespace Chatting.Domain
       private string GenerateCode()
       {
          var value = DateTime.Now;
-         return $"ON-{value.ToString("yyyyMMddHHmmssffff")}";
+         return $"MSG-{value.ToString("yyyyMMddHHmmssffff")}";
       }
    }
 }

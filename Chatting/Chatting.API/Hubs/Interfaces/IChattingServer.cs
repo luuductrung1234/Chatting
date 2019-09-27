@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
-// Chatting API Hub
-using Chatting.API.Hubs.Requests;
+// Chatting Application Commands
+using Chatting.Application.Commands.ChatMessageCommands;
 
 namespace Chatting.API.Hubs.Interfaces
 {
@@ -9,6 +9,6 @@ namespace Chatting.API.Hubs.Interfaces
    {
       Task DoSomethings(int seed);
 
-      Task SendMessage(TextMessageRequest request);
+      Task SendMessage(CreateChatMessageCommand request);
    }
 }

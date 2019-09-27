@@ -2,25 +2,24 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-
-// Chatting Domain
-using Chatting.Domain;
-using Chatting.Domain.Interfaces;
+using MediatR;
 
 // Chatting API Hubs
 using Chatting.API.Hubs.Interfaces;
 using Chatting.API.Utils;
-using Chatting.API.Hubs.Requests;
+
+// Chatting Application Commands
+using Chatting.Application.Commands.ChatMessageCommands;
 
 namespace Chatting.API.Hubs
 {
    public class ChattingHub : Hub<IChattingClient>, IChattingServer
    {
-      private readonly IChatMessageRepository _messageRepository;
+      private readonly IMediator _mediator;
 
-      public ChattingHub(IChatMessageRepository messageRepository)
+      public ChattingHub(IMediator mediator)
       {
-         _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
+         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
       }
 
       #region Business Methods
@@ -44,16 +43,14 @@ namespace Chatting.API.Hubs
          await Clients.Caller.Finished();
       }
 
-      public async Task SendMessage(TextMessageRequest request)
+      public async Task SendMessage(CreateChatMessageCommand request)
       {
-         var newMessage = new ChatMessage("",
-            request.SenderCode,
-            request.ReceiverCode,
-            request.Message);
+         var createdMessage = await _mediator.Send(request);
 
-         await _messageRepository.AddChatMessageAsync(newMessage);
-
-         await Clients.Group(request.ReceiverCode).ReceiveMessage(newMessage);
+         foreach (var receiverCode in request.ReceiverCodes)
+         {
+            await Clients.Group(receiverCode).ReceiveMessage(createdMessage);
+         }
       }
 
       #endregion
