@@ -75,12 +75,14 @@ document.getElementById('send').addEventListener('click', e => {
   e.preventDefault();
 
   var senderCode = getSenderCode();
-  var receiverCode = getReceiverCode();
+  var receiverCodes = getReceiverCode();
   var message = getMessage();
+  var roomCode = getRoomCode();
 
   connection.invoke('SendMessage', {
     senderCode: senderCode,
-    receiverCode: receiverCode,
+    receiverCodes: receiverCodes,
+    roomCode: roomCode,
     message: message
   });
 });
@@ -93,6 +95,11 @@ function getSenderCode() {
 function getReceiverCode() {
   // Selecting the input element and get its value
   return document.getElementById('receiverCode').value;
+}
+
+function getRoomCode() {
+  // Selecting the input element and get its value
+  return document.getElementById('roomCode').value;
 }
 
 function getMessage() {
