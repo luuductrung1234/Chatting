@@ -18,6 +18,9 @@ using Chatting.API.Hubs;
 // Chatting Infrastructure
 using Chatting.Infrastructure.Compositions;
 
+// Chatting Application
+using Chatting.Application.Compositions;
+
 namespace Chatting.API
 {
    public class Startup
@@ -41,6 +44,7 @@ namespace Chatting.API
          services
             .AddCustomConfiguration(Configuration)
             .AddInfrastructure(Environment)
+            .AddMediator()
             .AddWebAPI(Environment, _corsPolicy);
       }
 

@@ -15,8 +15,8 @@ namespace Chatting.Application.Compositions
          services.AddMediatR(assembly);
          services.AddAutoMapper(assembly);
 
-         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+         //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+         //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
 
          return services;
       }

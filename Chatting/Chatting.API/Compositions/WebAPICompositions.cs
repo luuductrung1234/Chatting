@@ -29,14 +29,14 @@ namespace Chatting.API.Compositions
             .AddMvc()
                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-         if(environment.IsLocal())
-         {
-            // attach RequireHttps attribute (for all request) to Mvc Layer
-            services.Configure<MvcOptions>(options =>
-            {
-               options.Filters.Add(new RequireHttpsAttribute());
-            });
-         }
+         //if(environment.IsLocal())
+         //{
+         //   // attach RequireHttps attribute (for all request) to Mvc Layer
+         //   services.Configure<MvcOptions>(options =>
+         //   {
+         //      options.Filters.Add(new RequireHttpsAttribute());
+         //   });
+         //}
 
          services.AddSignalRConfigration();
 
