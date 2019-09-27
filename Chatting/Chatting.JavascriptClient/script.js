@@ -81,7 +81,7 @@ document.getElementById('send').addEventListener('click', e => {
 
   connection.invoke('SendMessage', {
     senderCode: senderCode,
-    receiverCodes: receiverCodes,
+    receiverCodes: [receiverCodes],
     roomCode: roomCode,
     message: message
   });
