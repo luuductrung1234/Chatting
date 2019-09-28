@@ -11,6 +11,7 @@ using Chatting.Domain.Interfaces;
 
 // Chatting Infrastructure
 using Chatting.Infrastructure.Common;
+using SalesHub.Common.Core.LINQ;
 
 namespace Chatting.Infrastructure.Repositories
 {
@@ -26,19 +27,27 @@ namespace Chatting.Infrastructure.Repositories
          await this.AddOneAsync(user);
       }
 
-      public Task<User> GetUserAsync(Guid id)
+      public async Task<User> GetUserAsync(Guid id)
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<User>(user => user.Id == id
+            && user.IsDeleted == false);
+
+         return await GetOneAsync(filter);
       }
 
-      public Task<User> GetUserAsync(string userCode)
+      public async Task<User> GetUserAsync(string userCode)
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<User>(user => user.UserCode == userCode
+            && user.IsDeleted == false);
+
+         return await GetOneAsync(filter);
       }
 
-      public Task<IEnumerable<User>> GetUsersAsync()
+      public async Task<IEnumerable<User>> GetUsersAsync()
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<User>(user => user.IsDeleted == false);
+
+         return await GetAllAsync(filter);
       }
    }
 }

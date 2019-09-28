@@ -18,6 +18,11 @@ namespace Chatting.Infrastructure
       public string DatabaseName { get; set; }
    }
 
+   public class IdentityDatabaseSetting
+   {
+      public string ConnectionString { get; set; }
+   }
+
    public class MasterDatabaseSetting
    {
       public string ConnectionString { get; set; }

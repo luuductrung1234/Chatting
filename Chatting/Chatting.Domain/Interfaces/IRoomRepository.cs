@@ -10,7 +10,7 @@ namespace Chatting.Domain.Interfaces
 
       Task<IEnumerable<Room>> GetRoomsAsync();
 
-      Task<IEnumerable<Room>> GetRoomsByUserAsync(string userCode);
+      Task<IEnumerable<Room>> GetRoomsByUserAsync(string userCode, string shardKey = null);
 
       Task<Room> GetRoomAsync(Guid id);
 

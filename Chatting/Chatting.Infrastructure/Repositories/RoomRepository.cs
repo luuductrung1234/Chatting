@@ -37,7 +37,8 @@ namespace Chatting.Infrastructure.Repositories
             return false;
          }
 
-         var predicate = PredicateBuilder.Create<Room>(room => room.RoomCode == roomCode);
+         var predicate = PredicateBuilder.Create<Room>(room => room.RoomCode == roomCode
+            && room.IsDeleted == false);
 
          predicate = predicate.And(room => room.UserCodes
                .Contains(userCodes[0]));
@@ -50,24 +51,35 @@ namespace Chatting.Infrastructure.Repositories
          return await this.AnyAsync(predicate);
       }
 
-      public Task<Room> GetRoomAsync(Guid id)
+      public async Task<Room> GetRoomAsync(Guid id)
       {
-         throw new NotImplementedException();
+         var predicate = PredicateBuilder.Create<Room>(room => room.Id == id
+            && room.IsDeleted == false);
+
+         return await this.GetOneAsync(predicate);
       }
 
-      public Task<Room> GetRoomAsync(string roomCode)
+      public async Task<Room> GetRoomAsync(string roomCode)
       {
-         throw new NotImplementedException();
+         var predicate = PredicateBuilder.Create<Room>(room => room.RoomCode == roomCode
+            && room.IsDeleted == false);
+
+         return await this.GetOneAsync(predicate);
       }
 
-      public Task<IEnumerable<Room>> GetRoomsAsync()
+      public async Task<IEnumerable<Room>> GetRoomsAsync()
       {
-         throw new NotImplementedException();
+         var predicate = PredicateBuilder.Create<Room>(room => room.IsDeleted == false);
+
+         return await this.GetAllAsync(predicate);
       }
 
-      public Task<IEnumerable<Room>> GetRoomsByUserAsync(string userCode)
+      public async Task<IEnumerable<Room>> GetRoomsByUserAsync(string userCode, string shardKey = null)
       {
-         throw new NotImplementedException();
+         var predicate = PredicateBuilder.Create<Room>(room => room.UserCodes.Contains(userCode)
+            && room.IsDeleted == false);
+
+         return await this.GetAllAsync(predicate);
       }
    }
 }

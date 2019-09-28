@@ -4,11 +4,11 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 // Chatting Domain
 using Chatting.Domain;
 using Chatting.Domain.Interfaces;
-using System.Collections.Generic;
 using Chatting.Domain.Exceptions;
 
 namespace Chatting.Application.Commands.ChatMessageCommands

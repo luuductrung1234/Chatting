@@ -10,7 +10,7 @@ namespace Chatting.Domain.Interfaces
 
       Task<IEnumerable<ChatMessage>> GetChatMessagesAsync();
 
-      Task<IEnumerable<ChatMessage>> GetChatMessagesByUserAsync(string userCode);
+      Task<IEnumerable<ChatMessage>> GetChatMessagesByUserAsync(string userCode, string shardKey = null);
 
       Task<IEnumerable<ChatMessage>> GetChatMessagesByRoomAsync(string roomCode);
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 // Common
 using SalesHub.Common.GenericMongoDbRepository;
+using SalesHub.Common.Core.LINQ;
 
 // Chatting Domain
 using Chatting.Domain;
@@ -27,29 +29,43 @@ namespace Chatting.Infrastructure.Repositories
          await this.AddOneAsync(chatMessage);
       }
 
-      public Task<ChatMessage> GetChatMessageAsync(Guid id)
+      public async Task<ChatMessage> GetChatMessageAsync(Guid id)
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<ChatMessage>(m => m.Id == id
+            && m.IsDeleted == false);
+
+         return await this.GetOneAsync(filter);
       }
 
-      public Task<ChatMessage> GetChatMessageAsync(string messageCode)
+      public async Task<ChatMessage> GetChatMessageAsync(string messageCode)
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<ChatMessage>(m => m.ChatMessageCode == messageCode
+            && m.IsDeleted == false);
+
+         return await this.GetOneAsync(filter);
       }
 
-      public Task<IEnumerable<ChatMessage>> GetChatMessagesAsync()
+      public async Task<IEnumerable<ChatMessage>> GetChatMessagesAsync()
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<ChatMessage>(m => m.IsDeleted == false);
+
+         return await this.GetAllAsync(filter);
       }
 
-      public Task<IEnumerable<ChatMessage>> GetChatMessagesByRoomAsync(string roomCode)
+      public async Task<IEnumerable<ChatMessage>> GetChatMessagesByRoomAsync(string roomCode)
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<ChatMessage>(m => m.RoomCode == roomCode
+            && m.IsDeleted == false);
+
+         return await this.GetAllAsync(filter);
       }
 
-      public Task<IEnumerable<ChatMessage>> GetChatMessagesByUserAsync(string userCode)
+      public async Task<IEnumerable<ChatMessage>> GetChatMessagesByUserAsync(string userCode, string shardKey = null)
       {
-         throw new NotImplementedException();
+         var filter = PredicateBuilder.Create<ChatMessage>(m => m.IsDeleted == false);
+         filter = filter.And(m => m.SenderCode == userCode || m.ReceiverCodes.Contains(userCode));
+
+         return await this.GetAllAsync(filter);
       }
    }
 }

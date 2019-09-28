@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Authentication;
 using Microsoft.AspNetCore.Hosting;
-
+using Microsoft.Extensions.Options;
 
 // Chatting Domain
 using Chatting.Domain.Interfaces;
@@ -15,7 +15,7 @@ using Chatting.Infrastructure.Common;
 
 namespace Chatting.Infrastructure.Compositions
 {
-   public static class InfrastructureCompositions
+   public static class InfrastructureComposition
    {
       public static IServiceCollection AddInfrastructure(this IServiceCollection services, IHostingEnvironment env)
       {
@@ -31,24 +31,17 @@ namespace Chatting.Infrastructure.Compositions
 
       public static IServiceCollection AddMasterDbContext(this IServiceCollection services)
       {
-
-         services.AddSingleton<MasterDataDbConfigurationBuilder>();
-
          return services;
       }
 
       public static IServiceCollection AddServiceDbContext(this IServiceCollection services, IHostingEnvironment env)
       {
-         services
-            .AddSingleton<GenericDbConfigurationBuilder>()
-            .AddSingleton<ReadOnlyDbConfigurationBuilder>();
-
          services.AddSingleton<IGenericDbContext>(sp =>
          {
-            var dbConfiguration = sp.GetRequiredService<GenericDbConfigurationBuilder>();
+            var dbSettings = sp.GetRequiredService<IOptions<DatabaseSetting>>();
 
             MongoClientSettings settings = MongoClientSettings.FromUrl(
-               new MongoUrl(dbConfiguration.ConnectionString)
+               new MongoUrl(dbSettings.Value.ConnectionString)
             );
             settings.SslSettings = new SslSettings()
             {
@@ -63,16 +56,16 @@ namespace Chatting.Infrastructure.Compositions
             }
 
             var mongoClient = new MongoClient(settings);
-            var mongoDatabase = mongoClient.GetDatabase(dbConfiguration.DatabaseName);
+            var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
             return new GenericDbContext(mongoDatabase);
          });
 
          services.AddSingleton<IReadOnlyDbContext>(sp =>
          {
-            var dbConfiguration = sp.GetRequiredService<ReadOnlyDbConfigurationBuilder>();
+            var dbSettings = sp.GetRequiredService<IOptions<ReadOnlyDatabaseSetting>>();
 
             MongoClientSettings settings = MongoClientSettings.FromUrl(
-               new MongoUrl(dbConfiguration.ConnectionString)
+               new MongoUrl(dbSettings.Value.ConnectionString)
             );
             settings.SslSettings = new SslSettings()
             {
@@ -87,7 +80,7 @@ namespace Chatting.Infrastructure.Compositions
             }
 
             var mongoClient = new MongoClient(settings);
-            var mongoDatabase = mongoClient.GetDatabase(dbConfiguration.DatabaseName);
+            var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
             return new ReadOnlyDbContext(mongoDatabase);
          });
 
