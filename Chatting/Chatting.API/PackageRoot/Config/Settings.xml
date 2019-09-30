@@ -15,6 +15,9 @@
    <Section Name="MasterDataDb">
       <Parameter Name="ConnectionString" Value="Value1"/>
    </Section>
+   <Section Name="IdentityDb">
+      <Parameter Name="ConnectionString" Value="Value1"/>
+   </Section>
    <Section Name="Azure:SignalR">
       <Parameter Name="ConnectionString" Value="Value1"/>
    </Section>

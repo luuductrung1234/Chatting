@@ -15,6 +15,8 @@
     <Parameter Name="ServiceDb:DatabaseName" Value="" />
     <!-- Master Database -->
     <Parameter Name="MasterDataDb:ConnectionString" Value="" />
+    <!-- Identity Database -->
+    <Parameter Name="IdentityDb:ConnectionString" Value="" />
     <!-- Azure SignalR Service -->
     <Parameter Name="Azure:SignalR:ConnectionString" Value="" />
   </Parameters>

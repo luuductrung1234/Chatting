@@ -11,10 +11,12 @@
     <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.SignalR" Value="Debug" />
     <Parameter Name="Logging:LogLevel:Microsoft.AspNetCore.Http.Connections" Value="Debug" />
     <!-- Services Database -->
-    <Parameter Name="ServiceDb:ConnectionString" Value="mongodb+srv://sa:Trung1997@saleshub-local-cluster-dehib.mongodb.net/test" />
-    <Parameter Name="ServiceDb:DatabaseName" Value="Chatting_Database" />
+    <Parameter Name="ServiceDb:ConnectionString" Value="" />
+    <Parameter Name="ServiceDb:DatabaseName" Value="" />
     <!-- Master Database -->
-    <Parameter Name="MasterDataDb:ConnectionString" Value="Server=localhost,1433;Database=saleshub-dev-masterdata;User Id=sa;Password=Trung1997;" />
+    <Parameter Name="MasterDataDb:ConnectionString" Value="" />
+    <!-- Identity Database -->
+    <Parameter Name="IdentityDb:ConnectionString" Value="" />
     <!-- Azure SignalR Service -->
     <Parameter Name="Azure:SignalR:ConnectionString" Value="" />
   </Parameters>
