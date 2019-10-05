@@ -1,4 +1,5 @@
-const HUB_URL = 'http://localhost:19081/Chatting/Chatting.API/chattinghub';
+const BASE_URL = 'http://localhost:19081/Chatting/Chatting.API';
+const HUB_URL = `${BASE_URL}/hubs/chattinghub`;
 
 let connection = null;
 

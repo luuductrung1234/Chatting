@@ -1,18 +1,15 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 
 // Common
 using SalesHub.Common.WebAPI;
 using LDTSolutions.Common.WebApi.Cors;
+using LDTSolutions.Common.WebApi.SignalR;
 
 // Chatting API
 using Chatting.API.Compositions;
@@ -45,7 +42,8 @@ namespace Chatting.API
             .AddCustomConfiguration(Configuration)
             .AddInfrastructure(Environment)
             .AddMediator()
-            .AddWebAPI(Environment);
+            .AddWebAPI(Environment)
+            .AddCustomSignalR();
 
          var container = new ContainerBuilder();
          container.Populate(services);
@@ -66,28 +64,9 @@ namespace Chatting.API
             app.UseHsts();
          }
 
-         app.UseCustomCors();
-
          app.UseHttpsRedirection();
 
-         app.UseSignalR((configure) =>
-         {
-            // signalR server side desired specific transports
-            var desiredTransports =
-               HttpTransportType.WebSockets |
-               HttpTransportType.ServerSentEvents;
-
-            configure.MapHub<ChattingHub>("/chattinghub", (options) =>
-            {
-               options.Transports = desiredTransports;
-
-               // the maximum number of bytes from the client that the server buffers
-               options.TransportMaxBufferSize = 32;
-
-               // the maximum number of bytes the server can send
-               options.ApplicationMaxBufferSize = 32;
-            });
-         });
+         app.UseCustomSignalR<ChattingHub>(hubUrl: $"hubs/{nameof(ChattingHub).ToLower()}");
 
          app.UseMvc();
       }
