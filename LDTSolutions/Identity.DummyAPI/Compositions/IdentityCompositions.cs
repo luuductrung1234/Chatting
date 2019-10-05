@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity.UI;
 // Identity Infrastructure
 using Identity.Infrastructure.Data;
 
-namespace Identity.API.Compositions
+namespace Identity.DummyAPI.Compositions
 {
    public static class IdentityCompositions
    {
@@ -34,6 +34,9 @@ namespace Identity.API.Compositions
             options.UseSqlServer(connectionString,
                sqlServerOptionsAction: sqlOptions =>
                {
+                  //sqlOptions.MigrationsAssembly(typeof(AppIdentityDbContext).GetTypeInfo().Assembly.GetName().Name);
+                  sqlOptions.MigrationsAssembly("Identity.Migrations");
+
                   //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                   sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                }));

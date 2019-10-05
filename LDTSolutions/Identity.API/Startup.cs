@@ -56,6 +56,8 @@ namespace Identity.API
             app.UseHsts();
          }
 
+         app.UseStaticFiles();
+
          app.UseAuthentication();
 
          app.UseHttpsRedirection();
