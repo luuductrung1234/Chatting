@@ -8,7 +8,6 @@ using Autofac.Extensions.DependencyInjection;
 
 // Common
 using SalesHub.Common.WebAPI;
-using LDTSolutions.Common.WebApi.Cors;
 using LDTSolutions.Common.WebApi.SignalR;
 
 // Chatting API
@@ -66,7 +65,7 @@ namespace Chatting.API
 
          app.UseHttpsRedirection();
 
-         app.UseCustomSignalR<ChattingHub>(hubUrl: $"hubs/{nameof(ChattingHub).ToLower()}");
+         app.UseCustomSignalR<ChattingHub>(hubUrl: $"/hubs/{nameof(ChattingHub).ToLower()}");
 
          app.UseMvc();
       }
