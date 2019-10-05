@@ -29,9 +29,9 @@ To migrating Identity Database you should set **Identity.DummyAPI** as a startup
 >
 > $env:ASPNETCORE_ENVIRONMENT='current_environment_name'
 >
-> dotnet ef migrations add Your_Migration_Name --project .\Identity.Migrations --startup-project .\Identity.DummyAPI --output-dir MigrationsTrace
+> dotnet ef migrations add InitDatabase --project .\Services\Identity\Identity.Migrations --startup-project .\Services\Identity\Identity.DummyAPI --output-dir MigrationsTrace
 >
-> dotnet ef database update --project .\Identity.Migrations --startup-project .\Identity.DummyAPI
+> dotnet ef database update --project .\Services\Identity\Identity.Migrations --startup-project .\Services\Identity\Identity.DummyAPI
 >
 ```
 
