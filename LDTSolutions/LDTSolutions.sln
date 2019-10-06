@@ -6,12 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A5DAFAC5-0A7E-4406-964D-15C6D8D79E39}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chatting", "Chatting", "{23103306-7412-414A-9905-DC7CE93DD0D0}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Chatting\README.md = Services\Chatting\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{6F84E2D0-C37E-4358-91CA-3DE0DC18A917}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{0934108D-1C04-4AF2-B2BC-81A56F4164F5}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
+		Services\Identity\README.md = Services\Identity\README.md
 	EndProjectSection
 EndProject
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "LDTSolutions", "LDTSolutions\LDTSolutions.sfproj", "{53FC3F1B-C8BF-49A8-A4B7-D50D147638A5}"
@@ -39,6 +42,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatting.Infrastructure", "Services\Chatting\Chatting.Infrastructure\Chatting.Infrastructure.csproj", "{8234C99B-0268-49BC-8C82-86217C0F03F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatting.Domain", "Services\Chatting\Chatting.Domain\Chatting.Domain.csproj", "{BDEEFFD4-3F7B-4F9B-AF25-74E7E1A4C422}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2CBC65A7-F31E-4630-AA2F-258E44AFD4C6}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
