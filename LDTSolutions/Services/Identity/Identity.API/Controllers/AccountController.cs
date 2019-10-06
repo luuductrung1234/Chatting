@@ -1,17 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Identity.API.Models.AccountViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+using Identity.Infrastructure.Data;
+using Identity.API.Services;
+using Identity.API.Models.AccountViewModels;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Identity.API.Controllers
 {
    public class AccountController : Controller
    {
-      public AccountController()
-      {
+      private readonly UserManager<ApplicationUser> _userManager;
+      private readonly ILoginService<ApplicationUser> _loginService;
+      private readonly ILogger<AccountController> _logger;
+      private readonly IConfiguration _configuration;
 
+      public AccountController(
+         UserManager<ApplicationUser> userManager,
+         ILoginService<ApplicationUser> loginService,
+         ILogger<AccountController> logger,
+         IConfiguration configuration)
+      {
+         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+         _loginService = loginService ?? throw new ArgumentNullException(nameof(loginService));
+         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
       }
 
       /// <summary>
@@ -35,6 +52,33 @@ namespace Identity.API.Controllers
       {
          if (ModelState.IsValid)
          {
+            var user = await _loginService.FindByUserName(model.Email);
+
+            if (await _loginService.ValidateCredentials(user, model.Password))
+            {
+               var tokenLifetime = _configuration.GetValue("TokenLifeTimeMinutes", 120);
+
+               var props = new AuthenticationProperties()
+               {
+                  ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(tokenLifetime),
+                  AllowRefresh = true,
+                  RedirectUri = model.ReturnUrl
+               };
+
+               if (model.RememberMe)
+               {
+                  var permanentTokenLifetime = _configuration.GetValue("PermanentTokenLifetimeDays", 365);
+
+                  props.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(permanentTokenLifetime);
+                  props.IsPersistent = true;
+               }
+
+               await _loginService.SignInAsync(user, props);
+
+               return Redirect("~/");
+            }
+
+            ModelState.AddModelError("", "Invalid username or password.");
          }
 
          // something when wrong, show forn with errors

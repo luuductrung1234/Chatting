@@ -30,12 +30,12 @@ namespace Identity.API.Services
          return await _userManager.CheckPasswordAsync(user, password);
       }
 
-      public Task SignIn(ApplicationUser user)
+      public Task SignInAsync(ApplicationUser user)
       {
          return _signInManager.SignInAsync(user, true);
       }
 
-      public Task SignIn(ApplicationUser user, AuthenticationProperties properties, string authenticationMethod = null)
+      public Task SignInAsync(ApplicationUser user, AuthenticationProperties properties, string authenticationMethod = null)
       {
          return _signInManager.SignInAsync(user, properties, authenticationMethod);
       }

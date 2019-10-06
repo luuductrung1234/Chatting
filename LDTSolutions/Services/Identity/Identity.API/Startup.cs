@@ -15,6 +15,8 @@ using Microsoft.Extensions.Options;
 using Identity.API.Compositions;
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
+using Identity.API.Services;
+using Identity.Infrastructure.Data;
 
 namespace Identity.API
 {
@@ -36,6 +38,8 @@ namespace Identity.API
          services
             .AddCustomIdentity(Configuration)
             .AddWebAPI(Environment);
+
+         services.AddTransient<ILoginService<ApplicationUser>, EFLoginService>();
 
          var container = new ContainerBuilder();
          container.Populate(services);

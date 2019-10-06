@@ -13,8 +13,8 @@ namespace Identity.API.Services
 
       Task<T> FindByUserName(string userName);
 
-      Task SignIn(T user);
+      Task SignInAsync(T user);
 
-      Task SignIn(T user, AuthenticationProperties properties, string authenticationMethod = null);
+      Task SignInAsync(T user, AuthenticationProperties properties, string authenticationMethod = null);
    }
 }
