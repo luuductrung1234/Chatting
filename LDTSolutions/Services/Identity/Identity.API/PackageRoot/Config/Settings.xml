@@ -9,4 +9,8 @@
    <Section Name="IdentityDb">
       <Parameter Name="ConnectionString" Value="Value1"/>
    </Section>
+   <Section Name="Token">
+      <Parameter Name="TokenLifeTimeMinutes" Value="Value1" />
+      <Parameter Name="PermanentTokenLifetimeDays" Value="Value1" />
+   </Section>
 </Settings>
